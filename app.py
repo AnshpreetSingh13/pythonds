@@ -35,9 +35,23 @@ html, body, [class*='css'] {
     color: var(--text);
 }
 
+.stApp {
+    background: var(--bg-gradient) !important;
+    color: var(--text) !important;
+}
+
 [data-testid="stAppViewContainer"] {
-    background: var(--bg-gradient);
+    background: var(--bg-gradient) !important;
     overflow-x: hidden;
+}
+
+[data-testid="stMain"] {
+    background: transparent;
+}
+
+div.block-container {
+    background: transparent;
+    color: #000000;
 }
 
 /* Sidebar styling */
@@ -119,7 +133,7 @@ h2 {
     padding: 1.4rem 1.6rem;
     margin-bottom: 1.2rem;
     border-radius: 22px;
-    background: var(--panel);
+    background: linear-gradient(135deg, rgba(248, 251, 255, 0.97) 0%, rgba(233, 242, 255, 0.96) 100%);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-md);
     backdrop-filter: blur(12px);
@@ -202,7 +216,7 @@ h2 {
 .feature-card {
     padding: 1.4rem;
     border-radius: 20px;
-    background: rgba(255,255,255,0.94);
+    background: rgba(248, 251, 255, 0.95);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-md);
     height: 100%;
@@ -244,7 +258,7 @@ h2 {
 
 /* Metric Cards Styling */
 [data-testid="stMetric"] {
-    background: rgba(255, 255, 255, 0.96) !important;
+    background: rgba(248, 251, 255, 0.95) !important;
     border: 1px solid var(--border) !important;
     border-radius: 20px !important;
     padding: 1.1rem 1.2rem 1rem !important;
@@ -276,7 +290,7 @@ h2 {
 
 /* PLOTLY CONTAINER FIX: Overflow visible prevents cropping chart legends, labels & titles */
 .stPlotlyChart {
-    background: rgba(255, 255, 255, 0.96) !important;
+    background: rgba(248, 251, 255, 0.95) !important;
     border-radius: 22px !important;
     padding: 1.2rem 1.4rem 0.8rem 1.4rem !important;
     box-shadow: var(--shadow-md) !important;
@@ -301,7 +315,7 @@ h2 {
 }
 
 [data-testid="stDataFrame"], .stDataFrame {
-    background: rgba(255, 255, 255, 0.96) !important;
+    background: rgba(248, 251, 255, 0.95) !important;
     border-radius: 20px !important;
     padding: 0.8rem !important;
     box-shadow: var(--shadow-md) !important;
