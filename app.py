@@ -10,9 +10,9 @@ CUSTOM_CSS = """
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-    --bg: #eef4ff;
-    --bg-gradient: linear-gradient(135deg, #f7faff 0%, #eaf2ff 45%, #dfeeff 100%);
-    --panel: #f8fbff;
+    --bg: #EEF5FF;
+    --bg-gradient: linear-gradient(135deg, #EEF5FF 0%, #eef6ff 50%, #e8f1ff 100%);
+    --panel: #F7FAFF;
     --primary: #2563eb;
     --primary-gradient: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
     --secondary: #111827;
@@ -133,7 +133,7 @@ h2 {
     padding: 1.4rem 1.6rem;
     margin-bottom: 1.2rem;
     border-radius: 22px;
-    background: linear-gradient(135deg, rgba(248, 251, 255, 0.97) 0%, rgba(233, 242, 255, 0.96) 100%);
+    background: linear-gradient(135deg, rgba(247, 250, 255, 0.97) 0%, rgba(238, 245, 255, 0.96) 100%);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-md);
     backdrop-filter: blur(12px);
@@ -216,7 +216,7 @@ h2 {
 .feature-card {
     padding: 1.4rem;
     border-radius: 20px;
-    background: rgba(248, 251, 255, 0.95);
+    background: rgba(247, 250, 255, 0.95);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-md);
     height: 100%;
@@ -258,7 +258,7 @@ h2 {
 
 /* Metric Cards Styling */
 [data-testid="stMetric"] {
-    background: rgba(248, 251, 255, 0.95) !important;
+    background: rgba(247, 250, 255, 0.95) !important;
     border: 1px solid var(--border) !important;
     border-radius: 20px !important;
     padding: 1.1rem 1.2rem 1rem !important;
@@ -290,7 +290,7 @@ h2 {
 
 /* PLOTLY CONTAINER FIX: Overflow visible prevents cropping chart legends, labels & titles */
 .stPlotlyChart {
-    background: rgba(248, 251, 255, 0.95) !important;
+    background: rgba(247, 250, 255, 0.95) !important;
     border-radius: 22px !important;
     padding: 1.2rem 1.4rem 0.8rem 1.4rem !important;
     box-shadow: var(--shadow-md) !important;
@@ -315,7 +315,7 @@ h2 {
 }
 
 [data-testid="stDataFrame"], .stDataFrame {
-    background: rgba(248, 251, 255, 0.95) !important;
+    background: rgba(247, 250, 255, 0.95) !important;
     border-radius: 20px !important;
     padding: 0.8rem !important;
     box-shadow: var(--shadow-md) !important;

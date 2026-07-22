@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-    --bg: #eef4ff;
-    --bg-gradient: linear-gradient(135deg, #f7faff 0%, #eaf2ff 45%, #dfeeff 100%);
-    --panel: #f8fbff;
+    --bg: #f3f6fb;
+    --bg-gradient: linear-gradient(135deg, #f3f6fb 0%, #eef3ff 50%, #e8f0ff 100%);
+    --panel: #ffffff;
     --primary: #2563eb;
     --primary-gradient: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
     --secondary: #111827;
     --accent: #38bdf8;
-    --text: #000000;
+    --text: #111827;
     --muted: #6b7280;
     --border: #dbe4ee;
     --border-accent: rgba(37,99,235,0.20);
@@ -27,23 +27,9 @@ html, body, [class*='css'] {
     color: var(--text);
 }
 
-.stApp {
-    background: var(--bg-gradient) !important;
-    color: var(--text) !important;
-}
-
 [data-testid="stAppViewContainer"] {
-    background: var(--bg-gradient) !important;
+    background: var(--bg-gradient);
     overflow-x: hidden;
-}
-
-[data-testid="stMain"] {
-    background: transparent;
-}
-
-div.block-container {
-    background: transparent;
-    color: #000000;
 }
 
 [data-testid="stSidebar"] {
@@ -122,7 +108,7 @@ h2 {
     padding: 1.4rem 1.6rem;
     margin-bottom: 1.2rem;
     border-radius: 22px;
-    background: linear-gradient(135deg, rgba(248, 251, 255, 0.97) 0%, rgba(233, 242, 255, 0.96) 100%);
+    background: var(--panel);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-md);
     backdrop-filter: blur(12px);
@@ -205,7 +191,7 @@ h2 {
 .feature-card {
     padding: 1.4rem;
     border-radius: 20px;
-    background: rgba(248, 251, 255, 0.95);
+    background: rgba(255,255,255,0.94);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-md);
     height: 100%;
@@ -246,7 +232,7 @@ h2 {
 }
 
 [data-testid="stMetric"] {
-    background: rgba(248, 251, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
     border: 1px solid var(--border) !important;
     border-radius: 20px !important;
     padding: 1.1rem 1.2rem 1rem !important;
@@ -277,7 +263,7 @@ h2 {
 }
 
 .stPlotlyChart {
-    background: rgba(248, 251, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
     border-radius: 22px !important;
     padding: 1.2rem 1.4rem 0.8rem 1.4rem !important;
     box-shadow: var(--shadow-md) !important;
@@ -302,7 +288,7 @@ h2 {
 }
 
 [data-testid="stDataFrame"], .stDataFrame {
-    background: rgba(248, 251, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
     border-radius: 20px !important;
     padding: 0.8rem !important;
     box-shadow: var(--shadow-md) !important;
