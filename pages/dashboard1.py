@@ -80,9 +80,9 @@ fig1 = px.bar(
     x="industry",
     y="layoffs_count",
     color="industry",
-    title="Layoff count by industry"
+    title="Layoff count by industry",
 )
-st.plotly_chart(fig1)
+st.plotly_chart(fig1, use_container_width=True)
 # country_distributin=df.groupby("country").value_counts()
 country = (
     df.groupby("country")["layoffs_count"]
@@ -98,17 +98,17 @@ fig2 = px.treemap(
     title="Layoff count by country"
 
 )
-st.plotly_chart(fig2)
+st.plotly_chart(fig2, use_container_width=True)
 company_distribution = (
     df.groupby("company_size")
       .size()
       .reset_index(name="Count")
 )
 fig3=px.pie(data_frame=df,names="company_size",hole=0.5,title="Company size distribution")
-st.plotly_chart(fig3)
+st.plotly_chart(fig3, use_container_width=True)
 Hiring_distributin=df.groupby("hiring_trend")["open_roles"].sum().reset_index()
 fig4=px.bar(data_frame=Hiring_distributin,x="hiring_trend",y = "open_roles")
-st.plotly_chart(fig4)
+st.plotly_chart(fig4, use_container_width=True)
 market = (
     df["market_condition"]
       .value_counts()
@@ -124,7 +124,7 @@ fig5 = px.pie(
     hole=0.5
 )
 fig5=px.pie(data_frame=df,names="market_condition",values="job_security_score")
-st.plotly_chart(fig5)
+st.plotly_chart(fig5, use_container_width=True)
 industry_distributin = (
     df.groupby("industry")["layoffs_count"]
       .sum()
