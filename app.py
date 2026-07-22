@@ -1,0 +1,456 @@
+import runpy
+from pathlib import Path
+
+import streamlit as st
+from streamlit_option_menu import option_menu
+
+st.set_page_config(page_title="TECHLAYOFFS", page_icon="📊", layout="wide")
+
+CUSTOM_CSS = """
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg: #f3f6fb;
+    --bg-gradient: linear-gradient(135deg, #f3f6fb 0%, #eef3ff 50%, #e8f0ff 100%);
+    --panel: #ffffff;
+    --primary: #2563eb;
+    --primary-gradient: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+    --secondary: #111827;
+    --accent: #38bdf8;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #dbe4ee;
+    --border-accent: rgba(37,99,235,0.20);
+    --shadow-sm: 0 4px 10px rgba(0,0,0,0.05);
+    --shadow-md: 0 10px 25px rgba(0,0,0,0.08);
+    --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+}
+* {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+    box-sizing: border-box;
+}
+
+html, body, [class*='css'] {
+    background: var(--bg-gradient) !important;
+    color: var(--text);
+}
+
+[data-testid="stAppViewContainer"] {
+    background: var(--bg-gradient);
+    overflow-x: hidden;
+}
+
+/* Sidebar styling */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #071325 0%, #0f233d 50%, #162f50 100%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+section[data-testid="stSidebar"] > div {
+    background: transparent;
+}
+
+[data-testid="stSidebar"] .block-container {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+}
+
+[data-testid="stSidebarNav"],
+[data-testid="stSidebarNavItems"] {
+    display: none !important;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.2rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+}
+
+.brand-logo-sm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: var(--primary-gradient);
+    font-size: 1.2rem;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}
+
+.brand-name {
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.brand-sub {
+    color: rgba(226, 232, 240, 0.75);
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+/* Typography */
+h1 {
+    color: var(--secondary);
+    font-size: 2.2rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.4rem !important;
+    letter-spacing: -0.025em;
+}
+
+h2 {
+    color: var(--secondary);
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.5rem !important;
+    letter-spacing: -0.015em;
+}
+
+/* Page Cards & Banners */
+.page-card {
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1.2rem;
+    border-radius: 22px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(12px);
+    width: 100%;
+    max-width: 100%;
+    line-height: 1.6;
+    transition: all 0.25s ease;
+}
+
+.page-card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.page-hero {
+    padding: 1.3rem 1.6rem;
+    margin-bottom: 1.4rem;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(241,245,249,0.9) 100%);
+    border: 1px solid var(--border-accent);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.page-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--primary-gradient);
+}
+
+.page-hero .eyebrow {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.page-hero h2 {
+    margin: 0;
+    color: var(--secondary);
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+}
+
+.page-hero p {
+    margin: 0.3rem 0 0;
+    color: var(--muted);
+    font-size: 0.96rem;
+}
+
+.home-hero {
+    padding: 2.2rem 2.2rem 2rem;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #071325 0%, #0f2744 50%, #1d4ed8 100%);
+    color: white;
+    box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.home-hero h1, .home-hero h2, .home-hero p {
+    color: white !important;
+}
+
+.home-hero .eyebrow {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.feature-card {
+    padding: 1.4rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.94);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    height: 100%;
+    min-height: 140px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 35px -8px rgba(37, 99, 235, 0.12);
+    border-color: rgba(37, 99, 235, 0.25);
+}
+
+.feature-card h3 {
+    margin: 0.3rem 0 0.4rem;
+    font-size: 1.1rem;
+    color: var(--secondary);
+    font-weight: 700;
+}
+
+.feature-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.55;
+}
+
+.stack-pill {
+    display: inline-block;
+    margin: 0.3rem 0.4rem 0 0;
+    padding: 0.42rem 0.85rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(56, 189, 248, 0.14));
+    color: #1d4ed8;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+/* Metric Cards Styling */
+[data-testid="stMetric"] {
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 20px !important;
+    padding: 1.1rem 1.2rem 1rem !important;
+    box-shadow: var(--shadow-md) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    margin-bottom: 0.8rem !important;
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 35px -5px rgba(37, 99, 235, 0.12) !important;
+    border-color: rgba(37, 99, 235, 0.3) !important;
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--muted) !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+[data-testid="stMetricValue"] {
+    color: var(--secondary) !important;
+    font-size: 1.55rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.025em;
+}
+
+/* PLOTLY CONTAINER FIX: Overflow visible prevents cropping chart legends, labels & titles */
+.stPlotlyChart {
+    background: rgba(255, 255, 255, 0.96) !important;
+    border-radius: 22px !important;
+    padding: 1.2rem 1.4rem 0.8rem 1.4rem !important;
+    box-shadow: var(--shadow-md) !important;
+    border: 1px solid var(--border) !important;
+    margin-bottom: 1.4rem !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important; /* CRITICAL FIX: prevents chart cropping */
+    transition: all 0.25s ease !important;
+}
+
+.stPlotlyChart:hover {
+    border-color: rgba(37, 99, 235, 0.25) !important;
+    box-shadow: 0 18px 38px -5px rgba(37, 99, 235, 0.1) !important;
+}
+
+.stPlotlyChart > div, .stPlotlyChart .plotly-graph-div {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+}
+
+[data-testid="stDataFrame"], .stDataFrame {
+    background: rgba(255, 255, 255, 0.96) !important;
+    border-radius: 20px !important;
+    padding: 0.8rem !important;
+    box-shadow: var(--shadow-md) !important;
+    border: 1px solid var(--border) !important;
+    overflow: visible !important;
+}
+
+/* Form Controls & Sidebar Inputs */
+.stButton > button {
+    border-radius: 999px;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-weight: 700;
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 10px 22px rgba(37,99,235,0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(37,99,235,0.35);
+}
+
+.stTextInput > div > div > input, 
+.stSelectbox > div > div > div, 
+.stMultiSelect > div > div > div {
+    border-radius: 14px !important;
+    border: 1px solid rgba(37, 99, 235, 0.18) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-testid="stSidebar"] label {
+    color: rgba(226, 232, 240, 0.85) !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+}
+
+[data-testid="stSidebar"] div[role="radiogroup"] label span {
+    color: #e2e8f0 !important;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #94a3b8, #cbd5e1);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.7rem !important;
+    }
+}
+"""
+
+st.markdown(f"<style>{CUSTOM_CSS}</style>", unsafe_allow_html=True)
+
+
+def render_page(page_path: str) -> None:
+    page_path = Path(page_path)
+    if not page_path.exists():
+        st.error(f"Page not found: {page_path}")
+        return
+    runpy.run_path(str(page_path), run_name="__main__")
+
+
+PAGES = {
+    "🏠 Home": "Pages/home.py",
+    "📊 Executive": "Pages/dashboard1.py",
+    "📉 Layoffs": "Pages/dashboard2.py",
+    "🤖 AI Impact": "Pages/dashboard3.py",
+    "💼 Business": "Pages/dashboard4.py",
+}
+
+
+with st.sidebar:
+    st.markdown(
+        """
+        <div class="sidebar-brand">
+            <div class="brand-logo-sm">📊</div>
+            <div>
+                <div class="brand-name">TECHLAYOFFS</div>
+                <div class="brand-sub">Analytics Suite</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    selected = option_menu(
+        menu_title=None,
+        options=list(PAGES.keys()),
+        icons=["house", "bar-chart", "graph-up", "cpu", "cash-coin"],
+        default_index=0,
+        menu_icon="cast",
+        orientation="vertical",
+        styles={
+            "container": {"padding": "0.3rem 0.4rem", "background": "transparent"},
+            "icon": {"color": "#9fc8ff", "font-size": "1.05rem"},
+            "nav-link": {
+                "font-size": "0.95rem",
+                "text-align": "left",
+                "margin": "0.1rem 0",
+                "border-radius": "12px",
+                "color": "#eaf4ff",
+                "padding": "0.75rem 0.8rem",
+                "transition": "all 0.25s ease",
+            },
+            "nav-link-selected": {
+                "background": "linear-gradient(135deg, #2563eb, #38bdf8)",
+                "color": "white",
+                "font-weight": "700",
+                "box-shadow": "0 10px 22px rgba(37,99,235,0.24)",
+            },
+            "menu-title": {"display": "none"},
+        },
+    )
+
+page_file = PAGES[selected]
+page_hero_map = {
+    "📊 Executive": ("Executive Dashboard", "Leadership-ready insights for workforce and operating performance."),
+    "📉 Layoffs": ("Layoff Analytics", "Hiring, workforce impact, and headcount pressure trends."),
+    "🤖 AI Impact": ("AI Impact", "Transformation signals and automation effects across the organization."),
+    "💼 Business": ("Business Dashboard", "Financial performance, budget movement, and growth indicators."),
+}
+
+if selected != "🏠 Home":
+    hero_title, hero_subtitle = page_hero_map[selected]
+    st.markdown(
+        f"""
+        <div class="page-hero">
+            <div class="eyebrow">Premium Analytics</div>
+            <h2>{hero_title}</h2>
+            <p>{hero_subtitle}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+render_page(page_file)
