@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 st.header("Layoff and Hiring Analytics")
 df=pd.read_csv("techlayoffs.csv")
-st.dataframe(df)
+# st.dataframe(df)
 c1,c2,c3,c4,c5=st.columns(5)
 
 # Layoff Percentage
@@ -28,18 +28,19 @@ df["Revenue Category"] = pd.cut(
     labels=["Negative","Stable","High Growth"]
 )
 
+c1, c2, c3, c4 = st.columns(4)
 with c1: 
-    st.metric("Total Layoffs",df["layoffs_count"].sum())
+    st.metric("Total Layoffs", f"{int(df['layoffs_count'].sum()):,}")
 with c2:
-    st.metric("Average Layoffs Percentage",df["layoff_percentage"].mean())
+    st.metric("Average Layoffs Percentage", f"{df['layoff_percentage'].mean():.2f}%")
 with c3:
-    st.metric("Highest Layoffs",df["layoffs_count"].max())
+    st.metric("Highest Layoffs", f"{int(df['layoffs_count'].max()):,}")
 with c4:
-    st.metric("Average Open Roles",df["open_roles"].mean())
-c5,c6=st.columns(2)
-with c5:
-    st.metric("Hiring Growth Index",df["hiring_trend"].nunique())
+    st.metric("Average Open Roles", f"{df['open_roles'].mean():.1f}")
 
+c5, c6 = st.columns(2)
+with c5:
+    st.metric("Hiring Growth Index", f"{df['hiring_trend'].nunique():,}")
 
 fig1 = px.bar(
     df,
@@ -123,9 +124,9 @@ fig8.update_traces(textposition="outside")
 # hiring_distributin=df.groupby("hiring_trend")["open_roles"].value_counts()
 # fig8=px.bar(data_frame=df,x="hiring_trend",y="open_roles",color="hiring_trend")
 # st.plotly_chart(fig8)
-# with st.sidebar:
-#     st.multiselect("select country",df["country"].unique())
-#     st.selectbox("select industry",df["industry"].unique())
-#     st.radio("select company size",df["company_size"].unique())
-
-
+with st.sidebar:
+    st.multiselect("select industry",df["industry"].unique())
+    st.selectbox("select country",df["country"].unique())
+    st.radio("select hiring trend",df["hiring_trend"].unique())
+    st.multiselect("select company size",df["company_size"].unique())
+    st.selectbox("select reason for layoffs",df["reason_for_layoffs"].unique())

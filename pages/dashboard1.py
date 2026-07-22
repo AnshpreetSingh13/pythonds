@@ -6,27 +6,27 @@ from streamlit_option_menu import option_menu
 st.title("Project on Techlayoffs")
 st.header("Executive Workforce Overview")
 df=pd.read_csv("techlayoffs.csv")
-st.dataframe(df)
+# st.dataframe(df)
 
-c1,c2,c3,c4=st.columns(4)
+c1, c2, c3, c4 = st.columns(4)
 with c1: 
-    st.metric("Total Companies",df["company_name"].nunique())
+    st.metric("Total Companies", f"{df['company_name'].nunique():,}")
 with c2:
-    st.metric("Total Layoffs",df["layoffs_count"].sum())
+    st.metric("Total Layoffs", f"{int(df['layoffs_count'].sum()):,}")
 with c3:
-    st.metric("Total Open Roles",df["open_roles"].sum())
+    st.metric("Total Open Roles", f"{int(df['open_roles'].sum()):,}")
 with c4:
-    st.metric("Average AI Adoption Level",df["ai_adoption_level"].mean())
-c5,c6,c7,c8=st.columns(4)
-with c5:
-    st.metric("Average Revenue Growth",df["revenue_growth_percent"].mean())
-with c6:
-    st.metric("Average Stock Growth",df["stock_growth_percent"].mean())
-with c7:
-    st.metric("Average Employee Sentiment",df["employee_sentiment"].mean())
-with c8:
-    st.metric("Average Job Security Score",df["job_security_score"].mean())
+    st.metric("Average AI Adoption Level", f"{df['ai_adoption_level'].mean():.2f}")
 
+c5, c6, c7, c8 = st.columns(4)
+with c5:
+    st.metric("Average Revenue Growth", f"{df['revenue_growth_percent'].mean():.2f}%")
+with c6:
+    st.metric("Average Stock Growth", f"{df['stock_growth_percent'].mean():.2f}%")
+with c7:
+    st.metric("Average Employee Sentiment", f"{df['employee_sentiment'].mean():.2f}")
+with c8:
+    st.metric("Average Job Security Score", f"{df['job_security_score'].mean():.2f}")
 df["AI Adoption Category"] = pd.cut(
     df["ai_adoption_level"],
     bins=[0,30,70,100],
@@ -79,7 +79,8 @@ fig1 = px.bar(
     industry,
     x="industry",
     y="layoffs_count",
-    color="industry"
+    color="industry",
+    title="Layoff count by industry"
 )
 st.plotly_chart(fig1)
 # country_distributin=df.groupby("country").value_counts()
@@ -94,6 +95,7 @@ fig2 = px.treemap(
     country,
     path=["country"],
     values="layoffs_count",
+    title="Layoff count by country"
 
 )
 st.plotly_chart(fig2)
@@ -102,7 +104,7 @@ company_distribution = (
       .size()
       .reset_index(name="Count")
 )
-fig3=px.pie(data_frame=df,names="company_size",hole=0.5)
+fig3=px.pie(data_frame=df,names="company_size",hole=0.5,title="Company size distribution")
 st.plotly_chart(fig3)
 Hiring_distributin=df.groupby("hiring_trend")["open_roles"].sum().reset_index()
 fig4=px.bar(data_frame=Hiring_distributin,x="hiring_trend",y = "open_roles")
@@ -158,8 +160,10 @@ fig7 = px.treemap(
 )
 
 st.plotly_chart(fig7, use_container_width=True)
-# with st.sidebar:
-#     st.multiselect("select country",df["country"].unique())
-#     st.selectbox("select industry",df["industry"].unique())
-#     st.radio("select company size",df["company_size"].unique())
-
+with st.sidebar:
+    st.multiselect("select country",df["country"].unique())
+    st.selectbox("select industry",df["industry"].unique())
+    st.radio("select company size",df["company_size"].unique())
+    st.multiselect("select year",df["year"].unique())
+    st.selectbox("select month",df["month"].unique())
+    st.radio("select market condition",df["market_condition"].unique())

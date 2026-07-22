@@ -5,7 +5,7 @@ import numpy as np
 import plotly.graph_objects as go
 st.header("Business Performance and Employee Insights")
 df=pd.read_csv("techlayoffs.csv")
-st.dataframe(df)
+# st.dataframe(df)
 import streamlit as st
 
 
@@ -56,23 +56,31 @@ df["Remote Work Category"] = pd.cut(
 
 c1,c2,c3,c4,c5=st.columns(5)
 
-with c1: 
-    st.metric("Average renvenue growth ",df["revenue_growth_percent"].mean())
-with c2:
-    st.metric("Average stock growth",df["stock_growth_percent"].mean())
-with c3:
-    st.metric("Average Salary Budget Change",df["salary_budget_change"].mean())
-with c4:
-    st.metric("Average Employee Sentiment",df["employee_sentiment"].mean())
-c5,c6=st.columns(2)
-with c5:
-    st.metric("Average job security score",df["job_security_score"].mean())
-with c6:
-    st.metric("Average Remote Jobs",df["remote_jobs_percentage"].mean())
+c1, c2, c3, c4 = st.columns(4)
 
-c7,c8=st.columns(2)
+with c1: 
+    st.metric("Average Revenue Growth", f"{df['revenue_growth_percent'].mean():.2f}%")
+with c2:
+    st.metric("Average Stock Growth", f"{df['stock_growth_percent'].mean():.2f}%")
+with c3:
+    st.metric("Average Salary Budget Change", f"{df['salary_budget_change'].mean():.2f}%")
+with c4:
+    st.metric("Average Employee Sentiment", f"{df['employee_sentiment'].mean():.2f}")
+
+
+c5, c6 = st.columns(2)
+
+with c5:
+    st.metric("Average Job Security Score", f"{df['job_security_score'].mean():.2f}")
+with c6:
+    st.metric("Average Remote Jobs", f"{df['remote_jobs_percentage'].mean():.2f}%")
+
+st.markdown("<br>", unsafe_allow_html=True) # Spacing between metrics and charts
+
+c7, c8 = st.columns(2)
+
 with c7:
-    ai_distributin=df.groupby("Revenue Category").value_counts().reset_index()
+    ai_distribution = df["Revenue Category"].value_counts().reset_index()
     # st.write(ai_distributin)
     fig1 = px.bar(
             df,
@@ -81,7 +89,7 @@ with c7:
             color="Revenue Category",
             title="Revenue growth percent"
         )
-    st.plotly_chart(fig1, use_container_width=True)
+    st.plotly_chart(fig1, width="stretch")
 with c8:
   replace_distributin=df.groupby("Stock growth percent")["record_id"].count().reset_index()
 
@@ -94,7 +102,7 @@ with c8:
                 height=600
                 
             )
-  st.plotly_chart(fig2, use_container_width=True)
+  st.plotly_chart(fig2, width="stretch")
 industry_distributin=df.groupby("Job Security Category")["record_id"].count().reset_index()
 # st.dataframe(industry_distributin)
 fig3 = px.pie(
@@ -103,7 +111,7 @@ fig3 = px.pie(
     hole=0.5,
     title="Job Security Category"
 )
-st.plotly_chart(fig3, use_container_width=True)
+st.plotly_chart(fig3, width="stretch")
 
 temp = df.groupby("Revenue Category")["stock_growth_percent"].sum().reset_index()
 fig4 = px.line(
@@ -113,7 +121,7 @@ fig4 = px.line(
 
     
 )
-st.plotly_chart(fig4, use_container_width=True)
+st.plotly_chart(fig4, width="stretch")
 
 country_distributin=df.groupby("Revenue Category")["layoffs_count"].sum().reset_index()
 # st.write(country_distributin)
@@ -125,16 +133,16 @@ fig5 = px.area(
 
     # trendline="ols"
 )
-st.plotly_chart(fig5, use_container_width=True)
+st.plotly_chart(fig5, width="stretch")
 open_distributin=df.groupby("AI Adoption Category")["employee_sentiment"].value_counts().reset_index()
-st.dataframe(open_distributin)
+# st.dataframe(open_distributin)
 fig6 = px.pie(
     df,
     names="AI Adoption Category",
     values ="employee_sentiment",
     color="ai_adoption_level"
 )
-st.plotly_chart(fig6, use_container_width=True)
+st.plotly_chart(fig6, width="stretch")
 
 temp = df.groupby("Salary Budeget Category")["employee_sentiment"].sum().reset_index()
 
@@ -147,7 +155,7 @@ fig7 = px.area(
 
 
 )
-st.plotly_chart(fig7,use_container_width=True)
+st.plotly_chart(fig7,width="stretch")
 temp1 = df.groupby("Remote Work Category")["employee_sentiment"].sum().reset_index()
 
 fig8 = px.histogram(
@@ -157,7 +165,7 @@ fig8 = px.histogram(
     color="Remote Work Category"
 
 )
-st.plotly_chart(fig8,use_container_width=True)
+st.plotly_chart(fig8,width="stretch")
 temp2 = df.groupby("market_condition")["revenue_growth_percent"].sum().reset_index()
 fig9 = px.bar(
     temp2,
@@ -166,7 +174,7 @@ fig9 = px.bar(
     color="market_condition"
 
 )
-st.plotly_chart(fig9,use_container_width=True)
+st.plotly_chart(fig9,width="stretch")
 temp3 = df.groupby("hiring_trend")["employee_sentiment"].sum().reset_index()
 fig10 = px.area(
     temp3,
@@ -175,7 +183,7 @@ fig10 = px.area(
     color="hiring_trend"
 
 )
-st.plotly_chart(fig10,use_container_width=True)
+st.plotly_chart(fig10,width="stretch")
 temp4 = df.groupby("country")["salary_budget_change"].sum().reset_index()
 fig10 = px.histogram(
     temp4,
@@ -184,7 +192,7 @@ fig10 = px.histogram(
     color="country"
 
 )
-st.plotly_chart(fig10,use_container_width=True)
+st.plotly_chart(fig10,width="stretch")
 numeric_df = df.select_dtypes(include="number")
 corr = numeric_df.corr()
 fig = px.imshow(
@@ -195,12 +203,11 @@ fig = px.imshow(
     height=900  
 )
 
-st.plotly_chart(fig, use_container_width=True)
-# with st.sidebar:
-#     st.multiselect("select country",df["country"].unique())
-#     st.selectbox("select industry",df["industry"].unique())
-#     st.radio("select company size",df["company_size"].unique())
-
-
-
-
+st.plotly_chart(fig, width="stretch")
+with st.sidebar:
+    st.multiselect("select country",df["country"].unique())
+    st.selectbox("select industry",df["industry"].unique())
+    st.radio("select company size",df["company_size"].unique())
+    st.multiselect("select year",df["year"].unique())
+    st.selectbox("select month",df["month"].unique())
+    st.radio("select market condition",df["market_condition"].unique())

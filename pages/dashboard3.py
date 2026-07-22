@@ -5,7 +5,7 @@ import numpy as np
 import plotly.graph_objects as go
 st.header("AI Transformation and Workforce Impact")
 df=pd.read_csv("techlayoffs.csv")
-st.dataframe(df)
+# st.dataframe(df)
 # with st.sidebar:
 #     st.multiselect("select country",df["country"].unique())
 #     industry = st.multiselect("select industry",df["industry"].unique())
@@ -22,18 +22,18 @@ df["AI Adoption Category"] = pd.cut(
     labels=["Low","Medium","High"]
 )
 
-c1,c2,c3,c4,c5=st.columns(5)
+c1, c2, c3, c4, c5 = st.columns(5)
+
 with c1: 
-    st.metric("Average Ai adoption level",df["ai_adoption_level"].mean())
+    st.metric("Average AI Adoption Level", f"{df['ai_adoption_level'].mean():.2f}")
 with c2:
-    st.metric("Average Ai replacement risk",df["ai_replacement_risk"].mean())
+    st.metric("Average AI Replacement Risk", f"{df['ai_replacement_risk'].mean():.2f}")
 with c3:
-    st.metric("Average automation impact",df["ai_automation_impact"].mean())
+    st.metric("Average Automation Impact", f"{df['ai_automation_impact'].mean():.2f}")
 with c4:
-    st.metric("Average remote work",df["remote_jobs_percentage"].mean())
-c5,c6=st.columns(2)
+    st.metric("Average Remote Work", f"{df['remote_jobs_percentage'].mean():.2f}%")
 with c5:
-    st.metric("Average job security score",df["job_security_score"].mean())
+    st.metric("Average Job Security Score", f"{df['job_security_score'].mean():.2f}")
 
 df["AI Risk Category"] = pd.cut(
     df["ai_replacement_risk"],
@@ -59,7 +59,7 @@ fig1 = px.bar(
 )
 
 
-st.plotly_chart(fig1, use_container_width=True)
+st.plotly_chart(fig1, width="stretch")
 
 replace_distributin=df.groupby("AI Risk Category").value_counts().reset_index()
 
@@ -70,7 +70,7 @@ fig2 = px.treemap(
     color="AI Risk Category",
     title="AI Replacement Risk"
 )
-st.plotly_chart(fig2, use_container_width=True)
+st.plotly_chart(fig2, width="stretch")
 
 industry_distributin=df.groupby("AI automation impact").value_counts().reset_index()
 fig3 = px.histogram(
@@ -80,7 +80,7 @@ fig3 = px.histogram(
     color="AI automation impact",
     title="AI automation Impact"
 )
-st.plotly_chart(fig3, use_container_width=True)
+st.plotly_chart(fig3, width="stretch")
 
 temp = df.groupby("AI Adoption Category")["layoffs_count"].sum().reset_index()
 
@@ -89,7 +89,7 @@ fig4 = px.density_heatmap(
     x="AI Adoption Category",
     y="layoffs_count"
 )
-st.plotly_chart(fig4, use_container_width=True)
+st.plotly_chart(fig4, width="stretch")
 
 country_distributin=df.groupby("AI Adoption Category")["open_roles"].sum().reset_index()
 # st.write(country_distributin)
@@ -100,7 +100,7 @@ fig5 = px.bar(
     color="AI Adoption Category",
 
 )
-st.plotly_chart(fig5, use_container_width=True)
+st.plotly_chart(fig5, width="stretch")
 open_distributin=df.groupby("AI Adoption Category")["employee_sentiment"].sum().reset_index()
 fig6 = px.area(
     open_distributin,
@@ -108,7 +108,7 @@ fig6 = px.area(
     y="employee_sentiment",
     color="AI Adoption Category"
 )
-st.plotly_chart(fig6, use_container_width=True)
+st.plotly_chart(fig6, width="stretch")
 
 temp = df.groupby(["industry","ai_adoption_level"]).size().reset_index(name="count")
 
@@ -117,7 +117,7 @@ fig7 = px.treemap(
     path=["industry","ai_adoption_level"],
     values="count"
 )
-st.plotly_chart(fig7,use_container_width=True)
+st.plotly_chart(fig7,width="stretch")
 temp = df.groupby(["company_size","ai_adoption_level"]).size().reset_index(name="count")
 
 fig8 = px.bar(
@@ -127,7 +127,7 @@ fig8 = px.bar(
     color="company_size",
     barmode="stack"
 )
-st.plotly_chart(fig8,use_container_width=True)
+st.plotly_chart(fig8,width="stretch")
 numeric_df = df.select_dtypes(include="number")
 corr = numeric_df.corr()
 fig = px.imshow(
@@ -138,12 +138,9 @@ fig = px.imshow(
     height=900  
 )
 
-st.plotly_chart(fig, use_container_width=True)
-# with st.sidebar:
-#     st.multiselect("select country",df["country"].unique())
-#     st.selectbox("select industry",df["industry"].unique())
-#     st.radio("select company size",df["company_size"].unique())
-
-
-
-
+st.plotly_chart(fig, width="stretch")
+with st.sidebar:
+    st.multiselect("select industry",df["industry"].unique())
+    st.selectbox("select country",df["country"].unique())
+    st.radio("select hiring trend",df["hiring_trend"].unique())
+    st.multiselect("select company size",df["company_size"].unique())

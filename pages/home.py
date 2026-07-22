@@ -4,104 +4,106 @@ import streamlit as st
 st.markdown(
     """
     <style>
-        /* Hero Card Styling */
         .home-hero {
-            background: linear-gradient(90deg, #14234b 0%, #2962ff 100%);
-            padding: 2.5rem;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #071426 0%, #11233b 45%, #1d4ed8 100%);
+            padding: 2.3rem;
+            border-radius: 24px;
             color: white;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.4rem;
+            box-shadow: 0 20px 50px rgba(2, 6, 23, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .home-hero .eyebrow {
-            font-size: 0.9rem;
-            color: #cbd5e1;
+            font-size: 0.8rem;
+            color: #7dd3fc;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-            background-color: rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.12em;
+            margin-bottom: 0.55rem;
+            background: rgba(125, 211, 252, 0.14);
             display: inline-block;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
+            padding: 0.35rem 0.7rem;
+            border-radius: 999px;
+            border: 1px solid rgba(125, 211, 252, 0.18);
         }
         .home-hero h1 {
             color: white !important;
-            font-size: 2.8rem !important;
+            font-size: 2.6rem !important;
             font-weight: 800;
-            margin: 0.5rem 0;
+            margin: 0.35rem 0;
             padding: 0;
         }
         .home-hero h2 {
             color: white !important;
-            font-size: 1.4rem !important;
+            font-size: 1.2rem !important;
             font-weight: 600;
-            margin: 0 0 1rem 0;
+            margin: 0 0 0.9rem 0;
             padding: 0;
         }
         .home-hero p {
-            color: #f1f5f9 !important;
-            font-size: 1.05rem;
-            line-height: 1.5;
+            color: #e2e8f0 !important;
+            font-size: 1rem;
+            line-height: 1.6;
             margin: 0;
         }
 
-        /* Standard White Cards */
         .page-card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+            color: #f8fafc;
+            padding: 1.4rem 1.6rem;
+            border-radius: 22px;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 16px 40px rgba(2, 6, 23, 0.24);
+            border: 1px solid rgba(148, 163, 184, 0.18);
         }
         .page-card h2 {
-            color: #0f172a !important; /* Dark text to fix visibility issue */
-            font-size: 1.5rem !important;
+            color: #f8fafc !important;
+            font-size: 1.25rem !important;
             font-weight: 700;
             margin-top: 0;
             padding-top: 0;
         }
         .page-card p {
-            color: #475569 !important;
+            color: #cbd5e1 !important;
             line-height: 1.6;
             margin-bottom: 0;
         }
 
-        /* Feature Cards (3 columns) */
         .feature-card {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+            padding: 1.4rem;
+            border-radius: 20px;
+            box-shadow: 0 16px 40px rgba(2, 6, 23, 0.24);
+            border: 1px solid rgba(148, 163, 184, 0.18);
             height: 100%;
         }
         .feature-card h3 {
-            color: #0f172a !important;
-            font-size: 1.2rem !important;
+            color: #f8fafc !important;
+            font-size: 1.08rem !important;
             font-weight: 700;
             margin-top: 0;
             padding-top: 0;
         }
         .feature-card p {
-            color: #475569 !important;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            color: #cbd5e1 !important;
+            font-size: 0.94rem;
+            line-height: 1.55;
             margin-bottom: 0;
         }
 
-        /* Tech Stack Pills */
         .stack-pill-container {
             margin-top: 1rem;
         }
         .stack-pill {
             display: inline-block;
-            background-color: #e0f2fe; /* Light blue background */
-            color: #0284c7; /* Dark blue text */
-            padding: 0.4rem 1rem;
-            border-radius: 9999px; /* Pill shape */
-            font-size: 0.9rem;
-            font-weight: 600;
+            background: rgba(96, 165, 250, 0.14);
+            color: #bfdbfe;
+            padding: 0.42rem 0.85rem;
+            border-radius: 999px;
+            font-size: 0.86rem;
+            font-weight: 700;
             margin-right: 0.5rem;
             margin-bottom: 0.5rem;
+            border: 1px solid rgba(96, 165, 250, 0.2);
         }
     </style>
     """,
