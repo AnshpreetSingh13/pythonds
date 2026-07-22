@@ -381,11 +381,11 @@ def render_page(page_path: str) -> None:
 
 
 PAGES = {
-    "🏠 Home": "Pages/home.py",
-    "📊 Executive": "Pages/dashboard1.py",
-    "📉 Layoffs": "Pages/dashboard2.py",
-    "🤖 AI Impact": "Pages/dashboard3.py",
-    "💼 Business": "Pages/dashboard4.py",
+    "🏠 Home": "pages/home.py",
+    "📊 Executive": "pages/dashboard1.py",
+    "📉 Layoffs": "pages/dashboard2.py",
+    "🤖 AI Impact": "pages/dashboard3.py",
+    "💼 Business": "pages/dashboard4.py",
 }
 
 
